@@ -7,6 +7,7 @@ fuel = "minecraft:charcoal"
 
 
 function torch() 
+    inv = 0
     while inv < 16 do 
         item = turtle.getItemDetail(inv)
         if item["name"] == "minecraft:torch" then
