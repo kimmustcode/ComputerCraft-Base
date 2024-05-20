@@ -1,5 +1,4 @@
 -- Program that mines out in a set square area
--- Currently broken 
 local args = {...}
 local size = tonumber(args[1])
 local cnt1 = 1 
@@ -28,6 +27,7 @@ end
 
 -- Deposits inventory except torches and coal into chest 
 function deposit(cnt) 
+    print("deposit")
     temp = cnt -1
 
     -- walk forward back the amount of rows mined so far 
@@ -62,6 +62,7 @@ function deposit(cnt)
 end 
 
 function move()
+    print("move")
     -- check fuel level and if low then refuel
     if turtle.getFuelLevel() == 0 then
         inv = 1
@@ -91,42 +92,49 @@ function move()
     return turtle.forward()
 end
 
--- outer loop is rows 
-while cnt2 <= size do 
-    cnt1 = 1
-    -- inner loop is columns
-    while cnt1 <= size do
-        check = move()
-        if cnt1 % 13 and cnt2 % 4 then
-            torch()
-        end
-        
-        if check == true then      
-            cnt1 = cnt1 + 1 
-        end
-    end
 
-    turtle.turnRight()
-    -- If the turtle is on the original side the deposit otherwise turn and mine next row.
-    if here == true then
-        deposit(cnt2)
-        if cnt2 < size then
+
+function main()
+    -- outer loop is rows 
+    while cnt2 <= size do 
+        cnt1 = 1
+        -- inner loop is columns
+        while cnt1 <= size do
+            check = move()
+            if cnt1 % 13 and cnt2 % 4 and cnt2 ~= size then
+                torch()
+            end
+            
+            if check == true then      
+                cnt1 = cnt1 + 1 
+            end
+        end
+
+        turtle.turnRight()
+        -- If the turtle is on the original side the deposit otherwise turn and mine next row.
+        if here == true then
+            deposit(cnt2)
+            if cnt2 < size then
+                check2 = move()
+                if check2 == true then
+                    cnt2 = cnt2 + 1 
+                end
+                turtle.dig()
+                turtle.turnLeft()
+            else 
+                return
+            end
+        else 
             check2 = move()
             if check2 == true then
                 cnt2 = cnt2 + 1 
             end
-            turtle.dig()
-            turtle.turnLeft()
-        end
-    else 
-        check2 = move()
-        if check2 == true then
-            cnt2 = cnt2 + 1 
-        end
-        turtle.turnRight()
-    end 
-    
-    -- swap each row 
-    here = not here
+            turtle.turnRight()
+        end 
+        
+        -- swap each row 
+        here = not here
+    end
 end
 
+main()
