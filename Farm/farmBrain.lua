@@ -1,3 +1,5 @@
+-- Farm Computer used to interface between main computer and farm turtles
+
 rednet.open("back")
 potato = "002D"
 

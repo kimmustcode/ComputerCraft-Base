@@ -1,3 +1,5 @@
+-- Farms the potatoes
+
 rednet.open("left")
 check = false 
 myID = "002D"
