@@ -2,7 +2,7 @@ local size = 64
 local cnt1 = 1 
 local cnt2 = 1 
 local here = false 
-fuel = "minecraft:coal"
+fuel = "minecraft:charcoal"
 
 function deposit(cnt) 
     temp = cnt 
