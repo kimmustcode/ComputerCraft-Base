@@ -12,21 +12,25 @@ function printScreen()
         monitor.setTextColor(colors.red)
         monitor.write("INACTIVE")
     end 
-    
+    tempa = nuke.getTemperature()
+    mbr = nuke.getMaxBurnRate()
+    lvl = nuke.getCoolantFilledPercentage() * 100
+    flvl = nuke.getFuelFilledPercentage() * 100
+
+
+    monitor.clear()
     monitor.setTextColor(colors.white)
     monitor.setCursorPos(1, 2)
-    monitor.write("Temperature: ".. nuke.getTemperature())
+    monitor.write("Temperature: ".. tempa)
 
     monitor.setCursorPos(1, 3)
-    lvl = nuke.getCoolantFilledPercentage() * 100
     monitor.write("Coolant Level: %".. lvl)
 
     monitor.setCursorPos(1, 4)
-    flvl = nuke.getFuelFilledPercentage() * 100
     monitor.write("Fuel Level %" .. flvl)
 
     monitor.setCursorPos(1, 5)
-    monitor.write("Burn Rate: " .. nuke.getMaxBurnRate())
+    monitor.write("Burn Rate: " .. mbr)
 end
 
 while true do 
