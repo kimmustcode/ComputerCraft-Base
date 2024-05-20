@@ -1,19 +1,23 @@
+-- Program that mines out in a set square area
 local size = 64
 local cnt1 = 1 
 local cnt2 = 1 
 local here = false 
 fuel = "minecraft:charcoal"
 
+-- Deposits inventory except torches and coal into chest 
 function deposit(cnt) 
     temp = cnt 
 
     print(temp)
+    -- walk forward back the amount of rows mined so far 
     for i = temp, 1, -1 do
         turtle.forward()
     end 
 
     turtle.turnLeft()
 
+    -- Drop items that arent coal or torches 
     for i = 16, 1, -1 do
         block = turtle.getItemDetail(i)
         if block ~= nil then 
@@ -24,6 +28,7 @@ function deposit(cnt)
         end
     end
 
+    -- return back to last row 
     turtle.turnLeft()
 
     step = 1
@@ -34,6 +39,7 @@ function deposit(cnt)
 end 
 
 function move()
+    -- check fuel level and if low then refuel
     if turtle.getFuelLevel() == 0 then
         inv = 1
         while inv < 16 do 
@@ -61,18 +67,20 @@ function move()
     return turtle.forward()
 end
 
+-- outer loop is rows 
 while cnt2 < size do 
-    
-    
     cnt1 = 1
+    -- inner loop is columns
     while cnt1 < size do
         check = move()
-        if check == true then
+        
+        if check == true then      
             cnt1 = cnt1 + 1 
         end
     end
 
     turtle.turnRight()
+    -- If the turtle is on the original side the deposit otherwise turn and mine next row.
     if here == true then
         deposit()
         check2 = move()
@@ -88,12 +96,7 @@ while cnt2 < size do
         turtle.turnRight()
     end 
     
+    -- swap each row 
     here = not here
-
-
-
-
-    
-
 end
 
