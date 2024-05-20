@@ -1,3 +1,4 @@
+nuke = peripheral.wrap("top")
 monitor = peripheral.find("monitor")
 
 function printScreen() 
