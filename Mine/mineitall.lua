@@ -101,7 +101,7 @@ function main()
         -- inner loop is columns
         while cnt1 <= size do
             check = move()
-            if cnt1 % 13 and cnt2 % 4 and cnt2 ~= size then
+            if cnt1 % 13 == 0  and cnt2 % 4 == 0 and cnt2 ~= size then
                 torch()
             end
             
