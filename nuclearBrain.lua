@@ -1,34 +1,7 @@
--- This program is used to display a live view of the nuclear reactors information 
+-- This program is to control nuclear reactor
 rednet.open("top")
 nuke = peripheral.wrap("back")
-monitor = peripheral.find("monitor")
 coolant = true 
-
-
-function printScreen() 
-    mon.setCursorPos(1, 1)
-    mon.write("Status: ") 
-    stat = nuke.getStatus()
-    if stat == true then 
-        mon.setTextColor(colors.green)
-    else
-        mon.setTextColor(colors.red)
-    end 
-    
-    mon.write(stat)
-    mon.setTextColor(colors.white)
-    mon.setCursorPos(1, 2)
-    mon.write("Temperature: ".. nuke.getTemperature())
-    mon.setCursorPos(1, 3)
-    lvl = nuke.getCoolantFilledPercentage() * 100
-    mon.write("Coolant Level: %".. lvl)
-    mon.setCursorPos(1, 4)
-    flvl = nuke.getFuelLevel() * 100
-    mon.write("Fuel Level %" .. flvl)
-    mon.setCursorPos(1, 5)
-    mon.write("Burn Rate: " .. nuke.setBurnRate())
-end
-
 
 function main()
     while true do 
@@ -53,10 +26,8 @@ function main()
                 nuke.activate()
             end 
         end 
-
-        printScreen()
     end
 end
 
-
+main()
 
