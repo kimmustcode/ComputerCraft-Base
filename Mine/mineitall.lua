@@ -1,5 +1,7 @@
 -- Program that mines out in a set square area
-local size = 64
+-- Currently broken 
+local args = {...}
+local size = tonumber(args[1])
 local cnt1 = 1 
 local cnt2 = 1 
 local here = false 
@@ -7,26 +9,27 @@ fuel = "minecraft:charcoal"
 
 
 function torch() 
-    inv = 0
+    inv = 1
     while inv < 16 do 
         item = turtle.getItemDetail(inv)
-        if item["name"] == "minecraft:torch" then
-            turtle.turnRight()
-            turtle.turnRight()
-            turtle.select(inv)
-            turtle.place()
-            turtle.turnRight()
-            turtle.turnRight()
-        end 
+        if item ~= nil then 
+            if item["name"] == "minecraft:torch" then
+                turtle.turnRight()
+                turtle.turnRight()
+                turtle.select(inv)
+                turtle.place()
+                turtle.turnRight()
+                turtle.turnRight()
+            end 
+        end
+        inv = inv + 1 
     end
-    inv = inv + 1 
 end 
 
 -- Deposits inventory except torches and coal into chest 
 function deposit(cnt) 
-    temp = cnt 
+    temp = cnt -1
 
-    print(temp)
     -- walk forward back the amount of rows mined so far 
     for i = temp, 1, -1 do
         turtle.forward()
@@ -45,6 +48,9 @@ function deposit(cnt)
         end
     end
 
+    if cnt >= size then 
+        return
+    end 
     -- return back to last row 
     turtle.turnLeft()
 
@@ -81,14 +87,15 @@ function move()
         -- Mine it and move forward
         turtle.dig()
     end
+    
     return turtle.forward()
 end
 
 -- outer loop is rows 
-while cnt2 < size do 
+while cnt2 <= size do 
     cnt1 = 1
     -- inner loop is columns
-    while cnt1 < size do
+    while cnt1 <= size do
         check = move()
         if cnt1 % 13 and cnt2 % 4 then
             torch()
@@ -102,12 +109,15 @@ while cnt2 < size do
     turtle.turnRight()
     -- If the turtle is on the original side the deposit otherwise turn and mine next row.
     if here == true then
-        deposit()
-        check2 = move()
-        if check2 == true then
-            cnt2 = cnt2 + 1 
+        deposit(cnt2)
+        if cnt2 < size then
+            check2 = move()
+            if check2 == true then
+                cnt2 = cnt2 + 1 
+            end
+            turtle.dig()
+            turtle.turnLeft()
         end
-        turtle.turnLeft()
     else 
         check2 = move()
         if check2 == true then
