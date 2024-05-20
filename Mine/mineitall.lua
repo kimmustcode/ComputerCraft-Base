@@ -5,6 +5,22 @@ local cnt2 = 1
 local here = false 
 fuel = "minecraft:charcoal"
 
+
+function torch() 
+    while inv < 16 do 
+        item = turtle.getItemDetail(inv)
+        if item["name"] == "minecraft:torch" then
+            turtle.turnRight()
+            turtle.turnRight()
+            turtle.select(inv)
+            turtle.place()
+            turtle.turnRight()
+            turtle.turnRight()
+        end 
+    end
+    inv = inv + 1 
+end 
+
 -- Deposits inventory except torches and coal into chest 
 function deposit(cnt) 
     temp = cnt 
@@ -73,6 +89,9 @@ while cnt2 < size do
     -- inner loop is columns
     while cnt1 < size do
         check = move()
+        if cnt1 % 13 and cnt2 % 4 then
+            torch()
+        end
         
         if check == true then      
             cnt1 = cnt1 + 1 
