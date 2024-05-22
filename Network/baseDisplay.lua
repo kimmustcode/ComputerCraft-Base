@@ -19,6 +19,8 @@ function printScreen()
     nextE = math.floor(energyCube.getEnergy())
     invCrnt = 0
     invMax = inventory.size()
+    stat = nuke.getStatus()
+    perc = nextE / maxEn
 
     invlist = inventory.list()
 
@@ -26,15 +28,26 @@ function printScreen()
         invCrnt = invCrnt + 1 
     end
     
+    invperc = invCrnt / invMax
+
+    rednet.broadcast(nextE, "1A1A")
+    rednet.broadcast(invperc, "2A1A")
+    rednet.broadcast(stat, "3A1A")
+    rednet.broadcast(lvl, "4A1A")
+    rednet.broadcast(flvl, "5A1A")
+    rednet.broadcast(mbr, "6A1A")
+    rednet.broadcast(perc, "7A1A")
+    rednet.broadcast(tempa, "8A1A")
+
 
     -- If the energy level has changed 
     if nextE ~= lastE then 
-        perc = nextE / maxEn
+        
         
         -- Broadcast if full or low 
         if perc >= 1 then 
             rednet.broadcast("full", "0A1B")
-        elseif math.floor(perc*10) == 7 then 
+        elseif math.floor(perc*10) == 7 do
             rednet.broadcast("low", "0A1B")
         end 
         -- Color changes to reflect fullness level 
@@ -55,7 +68,7 @@ function printScreen()
 
     monitor.setCursorPos(1, 2)
     monitor.write("Status: ") 
-    stat = nuke.getStatus()
+    
 
     -- Display Green if reactor is active otherwise display Red
     if stat == true then 
@@ -69,7 +82,7 @@ function printScreen()
     end 
     monitor.setTextColor(colors.white)
     monitor.setCursorPos(1, 3)
-    monitor.write("Temperature: ".. tempa)
+    monitor.write("Temperature: ".. tempa - 273.15 .. " C")
 
     monitor.setCursorPos(1, 4)
     monitor.write("Coolant Level: ".. lvl .. "%")
@@ -99,7 +112,6 @@ function printScreen()
 
     monitor.setCursorPos(1, 12)
     monitor.write("===Inventory Storage===") 
-    invperc = invCrnt / invMax
     monitor.setCursorPos(1, 13)
     monitor.write(string.format("%.2f%% Full", (invperc * 100)))
     monitor.setCursorPos(1, 14)
