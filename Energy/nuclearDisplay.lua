@@ -33,7 +33,8 @@ function printScreen()
             monitor.setPaletteColor(colors.red, red, 1, 0)
         else
             green = (perc / .5)
-            monitor.setPaletteColor(colors.green, 1, green, 0)
+            -- Brown so it doesnt interfere with other green text
+            monitor.setPaletteColor(colors.brown, 1, green, 0)
         end 
     end 
     
