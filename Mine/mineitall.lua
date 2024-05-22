@@ -107,7 +107,7 @@ function main()
             
             if check == true then      
                 cnt1 = cnt1 + 1 
-            end 
+            end
         end
 
         turtle.turnRight()
