@@ -38,6 +38,8 @@ function printScreen()
     monitor.write("Burn Rate: " .. mbr)
 end
 
+-- sleep because nuke takes a second to form and this errors out if it tries to getstatus before its formed 
+sleep(3)
 while true do 
     printScreen()
 end
