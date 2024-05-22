@@ -2,6 +2,7 @@
 nuke = peripheral.wrap("fissionReactorLogicAdapter_0")
 monitor = peripheral.wrap("monitor_7")
 energyCube = peripheral.wrap("ultimateEnergyCube_0")
+inventory = peripheral.wrap("toms_storage:ts.inventory_connector.tile_0")
 rednet.open("bottom")
 
 maxEn = energyCube.getMaxEnergy()
@@ -16,6 +17,15 @@ function printScreen()
     lvl = nuke.getCoolantFilledPercentage() * 100
     flvl = nuke.getFuelFilledPercentage() * 100
     nextE = math.floor(energyCube.getEnergy())
+    invCrnt = 0
+    invMax = inventory.size()
+
+    invlist = inventory.list()
+
+    for item in pairs(invlist) then 
+        invCrnt = invCrnt + 1 
+    end
+    
 
     -- If the energy level has changed 
     if nextE ~= lastE then 
@@ -30,7 +40,7 @@ function printScreen()
         -- Color changes to reflect fullness level 
         if perc >= .5 then 
             red = 1 - ((perc - .5) / .5)
-            monitor.setPaletteColor(colors.red, red, 1, 0)
+            monitor.setPaletteColor(colors.pink, red, 1, 0)
         else
             green = (perc / .5)
             -- Brown so it doesnt interfere with other green text
@@ -49,9 +59,11 @@ function printScreen()
 
     -- Display Green if reactor is active otherwise display Red
     if stat == true then 
+        monitor.setPaletteColor(colors.green, 0, 1, 0)
         monitor.setTextColor(colors.green)
         monitor.write("ACTIVE")
     else
+        monitor.setPaletteColor(colors.red, 1, 0, 0)
         monitor.setTextColor(colors.red)
         monitor.write("INACTIVE")
     end 
@@ -75,19 +87,27 @@ function printScreen()
     monitor.write((nextE/1000000) .. " MJ") 
 
     if perc >= .5 then 
-        monitor.setTextColor(colors.red)
+        monitor.setTextColor(colors.pink)
     else
-        monitor.setTextColor(colors.green)
+        monitor.setTextColor(colors.brown)
     end 
 
     monitor.setCursorPos(1, 10)
     monitor.write(string.format("%.2f%%", (perc * 100)))
     monitor.setTextColor(colors.white)
     monitor.write(" Full") 
+
+    monitor.setCursorPos(1, 12)
+    monitor.write("===Inventory Storage===") 
+    invperc = invCrnt / invMax
+    monitor.setCursorPos(1, 13)
+    monitor.write(string.format("%.2f%% Full", (invperc * 100)))
+    monitor.setCursorPos(1, 14)
+    monitor.write(invCrnt .. " / " .. invMax)
+
     lastE = nextE  
 end
 
--- sleep because nuke takes a second to form and this errors out if it tries to getstatus before its formed 
 while true do 
     printScreen()
 end
