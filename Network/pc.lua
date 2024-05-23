@@ -22,11 +22,11 @@ else
 end 
 
 print("Status: " .. fStat) 
-print("Temperature: ".. string.format("%.2f%", tempa))
+print("Temperature: ".. string.format("%.2f", tempa))
 
-print("Coolant Level: ".. string.format("%.2f%", lvl) .. "%")
+print("Coolant Level: ".. string.format("%.2f%%", lvl) .. "%")
 
-print("Fuel Level " .. string.format("%.2f%", flvl) .. "%")
+print("Fuel Level " .. string.format("%.2f%%", flvl) .. "%")
 
 print("Burn Rate: " .. mbr)
 print("\n===Energy Storage===") 
