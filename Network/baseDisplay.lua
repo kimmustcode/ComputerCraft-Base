@@ -49,7 +49,7 @@ function printScreen()
         -- Broadcast if full or low 
         if perc >= 1 then 
             rednet.broadcast("full", "0A1B")
-        elseif math.floor(perc*10) == 7 do
+        elseif math.floor(perc*10) == 7 then
             rednet.broadcast("low", "0A1B")
         end 
         -- Color changes to reflect fullness level 
