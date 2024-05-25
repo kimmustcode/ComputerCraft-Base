@@ -24,8 +24,10 @@ function printScreen()
 
     invlist = inventory.list()
 
-    for item in pairs(invlist) then 
-        invCrnt = invCrnt + 1 
+    if invlist ~= nil then 
+        for item in pairs(invlist) then 
+            invCrnt = invCrnt + 1 
+        end
     end
     
     invperc = invCrnt / invMax
